@@ -5,8 +5,11 @@ import { playerPauseIcon, playerPlayIcon, playerSkipBackIcon, playerSkipForwardI
 import style from '../../style/components/player/player.module.css'
 // ** Hooks && Tools
 import { useEffect, useRef, useState } from 'react'
+// ** Store
+import { usePlayerStore } from '../../store/player/usePlayerStore';
+import { useNavBarStore } from '../../store/navbar/useNavBarStore';
 // ** Interfaces
-interface Radio {
+interface IRadio {
     id: number;
     name: string;
     url: string;
@@ -14,6 +17,11 @@ interface Radio {
 
 
 export default function Player() {
+    // ** Store
+    const { palyerData, changePlayerData } = usePlayerStore();
+    const { changeList } = useNavBarStore();
+
+
     // ** Ref
     const audioRef = useRef<HTMLAudioElement | null>(null)
 
@@ -21,7 +29,7 @@ export default function Player() {
     // ** States
     const [audioPlay,setAudioPlay] = useState<boolean>(false);
     const [audioTypeRadio,setAudioType] = useState<boolean>(true);
-    const [radios,setRadios] = useState<Radio[]>([]);
+    const [radios,setRadios] = useState<IRadio[]>([]);
     const [currentRadioIndex,setCurrentRadioIndex] = useState<number>(0);
     const [audioSrc,setAudioSrc] = useState<string>('');
 
@@ -59,13 +67,15 @@ export default function Player() {
         const fetchRadios = async () => {
             const radios = await getRadios();
             setRadios(radios);
+            changeList(radios);
         };
         fetchRadios();
-    }, []);
+    }, [changeList]);
     useEffect(() => {
         if (radios.length === 0) return;
         setAudioSrc(radios[currentRadioIndex].url);
-    }, [radios,currentRadioIndex]);
+        changePlayerData({id: radios[currentRadioIndex].id,name: radios[currentRadioIndex].name, url: radios[currentRadioIndex].url})
+    }, [radios,currentRadioIndex,changePlayerData]);
     useEffect(() => {
         if (!audioSrc || !audioRef.current) return;
         audioRef.current.load();
@@ -73,6 +83,9 @@ export default function Player() {
             audioRef.current.play();
         }
     }, [audioSrc,audioPlay]);
+    useEffect(() => {
+        setAudioSrc(palyerData.url);
+    }, [palyerData]);
 
 
     return (

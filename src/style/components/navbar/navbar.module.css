@@ -2,6 +2,7 @@
 nav
 {
     position: fixed;
+    z-index: 1000;
     top: 0;
     left: 0;
     width: 100%;
@@ -19,15 +20,70 @@ nav .menu .audio_list
 {
     display: flex;
     gap: 16px;
+    position: relative;
+    cursor: pointer;
 }
 nav .menu h1
 {
+    direction: rtl;
+    width: 160px;
     font-size: 18px;
     font-weight: 400;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
 }
 nav .menu .audio_list img
 {
     transform: translateY(2px);
+}
+nav .menu .audio_list ul
+{
+    position: absolute;
+    z-index: 500;
+    top: calc(100% + 8px);
+    left: 0;
+    width: 100%;
+    max-height: 50vh;
+    background: radial-gradient(circle, #FAFAFA, #E1E1E1);
+    list-style-type: none;
+    border-radius: 8px;
+    box-shadow: 0 0 8px rgba(34, 34, 34, 0.04);
+    padding: 8px 16px;
+    overflow-y: scroll;
+}
+nav .menu .audio_list ul::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+nav .menu .audio_list ul::-webkit-scrollbar-track
+{
+    background-color: transparent;
+    border-radius: 4px;
+}
+nav .menu .audio_list ul::-webkit-scrollbar-thumb
+{
+    background: linear-gradient(to bottom, #5C9065, #66E77E);
+    border-radius: 4px;
+}
+nav .menu .audio_list ul li
+{
+    width: 100%;
+    font-size: 16px;
+    font-weight: 400;
+    text-align: start;
+    direction: rtl;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+    overflow: hidden;
+    color: black;
+    border-radius: 4px;
+    margin: 4px 0;
+    padding: 4px;
+}
+nav .menu .audio_list ul li.active_audio
+{
+    border: solid 1px #5C9065;
 }
 nav .options
 {
