@@ -1,0 +1,47 @@
+/* Start NavBar Components */
+nav
+{
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
+    padding: 16px;
+}
+nav .menu
+{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+nav .menu .audio_list
+{
+    display: flex;
+    gap: 16px;
+}
+nav .menu h1
+{
+    font-size: 18px;
+    font-weight: 400;
+}
+nav .menu .audio_list img
+{
+    transform: translateY(2px);
+}
+nav .options
+{
+    display: flex;
+    align-items: center;
+    gap: 16px;
+}
+nav button
+{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+/* End NavBar Components */
