@@ -1,11 +1,13 @@
 // ** Assets
-import { useState } from 'react'
 import { listIcon, downIcon, lightModeIcon, darkModeIcon, languageIcon } from '../../assets/icons/icons'
 // ** Style
 import style from '../../style/components/navbar/navbar.module.css'
+// ** Hooks && Tools
+import { useEffect, useState } from 'react'
 // ** Store
 import { usePlayerStore } from '../../store/player/usePlayerStore';
 import { useNavBarStore } from '../../store/navbar/useNavBarStore';
+import { useSystemStore } from '../../store/system/useSystemStore';
 
 
 
@@ -14,18 +16,19 @@ export default function NavBar() {
     // ** Store
     const { palyerData, changePlayerData } = usePlayerStore();
     const { list } = useNavBarStore();
+    const { system, changeThemeMode } = useSystemStore();
 
 
 
     // ** States
-    const [themeMode,setThemeMode] = useState<'light' | 'dark'>('light');
     const [dropMenuOpen,setDropMenuOpen] = useState<boolean>(false);
 
 
 
     // ** Handlers
     const changeThemeModeHandler = ()=>{
-        setThemeMode(prev => prev === 'dark' ? 'light' : 'dark');
+        const newTheme = system.themeMode === 'darkMode' ? 'lightMode' : 'darkMode';
+        changeThemeMode(newTheme);
     }
     const changeDropMenuStateHandler = ()=>{
         setDropMenuOpen(prev => !prev)
@@ -43,10 +46,17 @@ export default function NavBar() {
     )
 
 
-    
+    // ** UseEffect
+    useEffect(()=>{
+        changeThemeMode(system.themeMode);
+    },[changeThemeMode,system.themeMode])
+
+
+
+
     return (
         <>
-            <nav>
+            <nav className={system.themeMode}>
                 <div className={style.menu}>
                     <button>
                         <img src={listIcon} alt="list Icon" />
@@ -65,7 +75,7 @@ export default function NavBar() {
                 <div className={style.options}>
                     <button onClick={changeThemeModeHandler}>
                         {
-                            themeMode === 'light' ? 
+                            system.themeMode === 'lightMode' ? 
                             <img src={lightModeIcon} alt="lightMode Icon" />
                             :
                             <img src={darkModeIcon} alt="darkMode Icon" />                                

@@ -8,6 +8,7 @@ import { useEffect, useRef, useState } from 'react'
 // ** Store
 import { usePlayerStore } from '../../store/player/usePlayerStore';
 import { useNavBarStore } from '../../store/navbar/useNavBarStore';
+import { useSystemStore } from '../../store/system/useSystemStore';
 // ** Interfaces
 interface IRadio {
     id: number;
@@ -20,6 +21,7 @@ export default function Player() {
     // ** Store
     const { palyerData, changePlayerData } = usePlayerStore();
     const { changeList } = useNavBarStore();
+    const { system } = useSystemStore();
 
 
     // ** Ref
@@ -90,7 +92,7 @@ export default function Player() {
 
     return (
         <>
-            <div className={style.player}>
+            <div className={`${style.player} ${system.themeMode}`}>
                 <div className={style.progress_bar}>
                     <div className={style.bar_timer}>
                         <span>0:00</span>
